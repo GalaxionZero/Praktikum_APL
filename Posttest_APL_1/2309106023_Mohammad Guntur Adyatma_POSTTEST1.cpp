@@ -1,4 +1,6 @@
 #include <iostream>
+#include <ios>
+#include <limits>
 using namespace std;
 
 
@@ -14,23 +16,23 @@ struct
 
 struct
 {
-    string myName = "Guntur";
+    string myName = "Mohammad Guntur Adyatma";
     string myNIM = "2309106023";
 } dataMahasiswa;
 
 
-void currencyExchange(int whichCurrency, double insertedCurrency)
+int currencyExchange(int whichCurrency, double insertedCurrency)
 {
     switch(whichCurrency)
     {
     case 1:
         dataCurrency.rupiah = insertedCurrency;
-        dataCurrency.dollar = insertedCurrency / 15000;
+        dataCurrency.dollar = insertedCurrency / 15700;
         dataCurrency.euro = insertedCurrency / 17000;
         dataCurrency.yen = insertedCurrency / 104;
         break;
     case 2:
-        dataCurrency.rupiah = insertedCurrency * 15000;
+        dataCurrency.rupiah = insertedCurrency * 15700;
         dataCurrency.dollar = insertedCurrency;
         dataCurrency.euro = insertedCurrency * 0.92;
         dataCurrency.yen = insertedCurrency * 150;
@@ -49,7 +51,11 @@ void currencyExchange(int whichCurrency, double insertedCurrency)
         break;
     }
 
+    return 0;
 }
+
+
+
 
 
 int menu(int numberOfChoices)
@@ -64,7 +70,9 @@ int menu(int numberOfChoices)
         }
             else
             {
-                cout << "Masukkan sesuai jumlah opsi!";
+                cout << "Masukkan sesuai jumlah opsi! \n";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
     }
 }
@@ -129,18 +137,16 @@ int main()
 {
     string inputName, inputNIM;
     int loginAttempts = 0;
-    bool tryLogin = false;
 
     while (loginAttempts < 3 && programIsFinished == false)
     {
         cout << "Enter your username: ";
-        cin >> inputName;
+        getline(cin, inputName);
         cout << "Enter your NIM: ";
         cin >> inputNIM;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        tryLogin = loginCheck(inputName, inputNIM);
-
-        if (tryLogin == false)
+        if (!loginCheck(inputName, inputNIM))
             {
             cout << "Login Failed! \n"
                     "Trying again... \n";
@@ -154,6 +160,12 @@ int main()
                 currencyExchangeMain();
             }
 
+    }
+
+    if (loginAttempts = 3)
+    {
+        cout << "\nLogin Attempts Exceeded"
+                "\nClosing Program";
     }
 
     return 0;
