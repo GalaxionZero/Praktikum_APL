@@ -28,7 +28,7 @@ int currencyExchange(int whichCurrency, double insertedCurrency)
     case 1:
         dataCurrency.rupiah = insertedCurrency;
         dataCurrency.dollar = insertedCurrency / 15700;
-        dataCurrency.euro = insertedCurrency / 17000;
+        dataCurrency.euro = insertedCurrency / 17037;
         dataCurrency.yen = insertedCurrency / 104;
         break;
     case 2:
@@ -38,7 +38,7 @@ int currencyExchange(int whichCurrency, double insertedCurrency)
         dataCurrency.yen = insertedCurrency * 150;
         break;
     case 3:
-        dataCurrency.rupiah = insertedCurrency * 17000;
+        dataCurrency.rupiah = insertedCurrency * 17037;
         dataCurrency.dollar = insertedCurrency * 1.08;
         dataCurrency.euro = insertedCurrency;
         dataCurrency.yen = insertedCurrency * 162;
