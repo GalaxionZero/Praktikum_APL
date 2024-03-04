@@ -55,7 +55,24 @@ int currencyExchange(int whichCurrency, double insertedCurrency)
 }
 
 
+int amountOfCurrency()
+{
+    double amount;
+    while (true)
+    {
+        if (cin >> amount)
+        {
+            return amount;
+        }
+            else
+            {
+                "Enter a numerical amount!";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+    }
 
+}
 
 
 int menu(int numberOfChoices)
@@ -63,14 +80,13 @@ int menu(int numberOfChoices)
     while (true)
     {
         int choice;
-        cin >> choice;
-        if (choice <= numberOfChoices)
+        if (cin >> choice && choice > 0 && choice <= numberOfChoices)
         {
             return choice;
         }
             else
             {
-                cout << "Masukkan sesuai jumlah opsi! \n";
+                cout << "Enter numbers according to the menu! \n";
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
@@ -82,7 +98,6 @@ void currencyExchangeMain()
 {
     bool programRepeats = true;
     int currencyChoice, repeatChoice;
-    double amountOfCurrency;
 
     cout << endl << "Welcome to Currency Exchange Limited! \n";
 
@@ -96,9 +111,9 @@ void currencyExchangeMain()
 
         currencyChoice = menu(4);
         cout << endl << "Enter the desired amount to be converted: \n";
-        cin >> amountOfCurrency;
 
-        currencyExchange(currencyChoice, amountOfCurrency);
+        currencyExchange(currencyChoice, amountOfCurrency());
+
 
         cout << endl << "The currency after being converted: \n";
         cout << "Rupiah: " << dataCurrency.rupiah << endl;
@@ -110,12 +125,14 @@ void currencyExchangeMain()
         cout << endl << "Would you like to repeat the program? \n"
                         "1. Yes \n"
                         "2. No \n";
+
         repeatChoice = menu(2);
         if (repeatChoice = 2)
         {
             programRepeats = false;
             programIsFinished = true;
         }
+
         cout << endl;
     }
 }
@@ -133,12 +150,13 @@ int loginCheck(string insertedName, string insertedNIM)
         }
 }
 
+
 int main()
 {
     string inputName, inputNIM;
     int loginAttempts = 0;
 
-    while (loginAttempts < 3 && programIsFinished == false)
+    while (loginAttempts < 3 && !programIsFinished)
     {
         cout << "Enter your username: ";
         getline(cin, inputName);
