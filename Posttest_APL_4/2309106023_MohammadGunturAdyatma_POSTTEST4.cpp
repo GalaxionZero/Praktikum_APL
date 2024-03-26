@@ -35,6 +35,7 @@ int menu(int numberOfChoices)
     while (true)
     {
         int choice;
+        cout << "Enter: ";
         if (cin >> noskipws >> choice && choice >= 0 && choice <= numberOfChoices)
         {
             cin.clear();
@@ -102,10 +103,9 @@ void changeCityData(int sizeOfArray)
     string renamedCityName, renamedCityPopulation, renamedCityMedian;
     readCityNames(0, sizeOfArray);
 
-    cout << endl << "\nChoose the city you'd like to change the name of El Presidente\n";
+    cout << endl << "\nChoose the city you'd like to change the data of El Presidente\n";
     position = menu(sizeOfArray);
     cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 
     do
@@ -138,7 +138,6 @@ void deleteCity(int sizeOfArray)
     cout << endl << "\nChoose the city you'd like to destroy El Presidente\n";
     position = menu(sizeOfArray);
     cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     for (int i = position-1; i < sizeOfArray-1; i++)
     {
@@ -169,13 +168,17 @@ void cityNamesProgram()
 
     while (programRepeats == true)
     {
+        if (totalAmountOfCities == 7)
+        {
+            cout << "El Presidente! You have controlled enough cities to declare yourself as the legitimate government!";
+        }
+
         cout << "\nWhat would you like to do El Presidente?\n"
                 "1. Create a new city\n"
                 "2. \"Show me the list of cities!\"\n"
                 "3. Change the name of a city\n"
                 "4. Destroy a city\n"
-                "0. \"I would like to retire\"\n"
-                "Enter: ";
+                "0. \"I would like to retire\"\n";
 
 
         choice = menu(4);
