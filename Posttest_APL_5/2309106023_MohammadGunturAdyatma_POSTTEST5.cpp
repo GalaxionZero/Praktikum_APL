@@ -5,7 +5,6 @@ using namespace std;
 bool programIsFinished = false;
 string cityNames[7] = {"Learoston"};
 int totalAmountOfCities = 1;
-int* cities = &totalAmountOfCities;
 
 struct
 {
@@ -76,7 +75,7 @@ int createCityName(int& sizeOfArray)
     data[sizeOfArray].name = newCityName;
     data[sizeOfArray].pop.populationAmount = newCityPopulation;
     data[sizeOfArray].pop.populationMedianAge = newCityMedian;
-    totalAmountOfCities += 1;
+    sizeOfArray += 1;
 
     return 0;
 }
