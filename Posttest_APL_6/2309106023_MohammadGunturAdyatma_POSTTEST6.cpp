@@ -15,8 +15,8 @@ struct
 
 struct populationData
 {
-    string populationAmount;
-    string populationMedianAge;
+    int populationAmount;
+    double populationMedianAge;
 };
 
 
@@ -60,24 +60,58 @@ int createCityName(int& sizeOfArray)
         return -1;
     }
 
-    string newCityName, newCityPopulation, newCityMedian;
+    string newCityName;
+    int newCityPopulation;
+    double newCityMedian;
     cin.clear();
-    do
-    {
+    bool validName = false, validPopulation = false, validMedian = false;
 
+    while (!validName)
+    {
         cout << "\nEnter the name of the new city El Presidente\n";
         getline(cin, newCityName);
-        cout << "\nEnter the population of the new city El Presidente\n";
-        getline(cin, newCityPopulation);
-        cout << "\nEnter the median age of the new city El Presidente\n";
-        getline(cin, newCityMedian);
-
-        if (newCityName.empty() || newCityPopulation.empty() || newCityMedian.empty())
+        if (newCityName.empty())
         {
-            cout << "One of the data cannot simply be blank El Presidente!";
+            cout << "Please enter a name El Presidente!";
         }
-
-    }while (newCityName.empty() || newCityPopulation.empty() || newCityMedian.empty());
+            else
+            {
+                validName = true;
+            }
+    }
+    cin.clear();
+    while (!validPopulation)
+    {
+        cout << "\nEnter the population of the new city El Presidente\n";
+        if (cin >> noskipws >> newCityPopulation && newCityPopulation > 0)
+        {
+            validPopulation = true;
+            cin.clear();
+            cin.ignore();
+        }
+            else
+            {
+                cout << "Please enter a number El Presidente!";
+                cin.clear();
+                cin.ignore();
+            }
+    }
+    while (!validMedian)
+    {
+        cout << "\nEnter the median age of the new city El Presidente\n";
+        if (cin >> noskipws >> newCityMedian && newCityMedian > 0)
+        {
+            validMedian = true;
+            cin.clear();
+            cin.ignore();
+        }
+            else
+            {
+                cout << "Pleas enter a number El Presidente!";
+                cin.clear();
+                cin.ignore();
+            }
+    }
     citdat[sizeOfArray].name = newCityName;
     citdat[sizeOfArray].pop.populationAmount = newCityPopulation;
     citdat[sizeOfArray].pop.populationMedianAge = newCityMedian;
@@ -92,44 +126,43 @@ void selectionSort(cityData citdat[], int* sizeOfArray, bool sortAscending)
     int i, j, minimum;
     if (sortAscending == true)
     {
-        cityData temp;
         for (i = 0; i < *sizeOfArray - 1; i++)
         {
             minimum = i;
             for (j = i+1; j < *sizeOfArray; j++)
             {
-                if (citdat[j].name > citdat[minimum].name)
+                if (citdat[j].name < citdat[minimum].name)
                 {
                     minimum = j;
                 }
             }
+
             if (minimum != i)
             {
-                temp = citdat[minimum];
-                citdat[minimum] = citdat[j];
-                citdat[j] = temp;
+            cityData temp = citdat[minimum];
+            citdat[minimum] = citdat[i];
+            citdat[i] = temp;
             }
-
         }
     }
         else
         {
-            cityData temp;
             for (i = 0; i < *sizeOfArray - 1; i++)
             {
                 minimum = i;
                 for (j = i+1; j < *sizeOfArray; j++)
                 {
-                    if (citdat[j].name < citdat[minimum].name)
+                    if (citdat[j].name > citdat[minimum].name)
                     {
                         minimum = j;
                     }
                 }
+
                 if (minimum != i)
                 {
-                    temp = citdat[minimum];
-                    citdat[minimum] = citdat[j];
-                    citdat[j] = temp;
+                cityData temp = citdat[minimum];
+                citdat[minimum] = citdat[i];
+                citdat[i] = temp;
                 }
             }
         }
@@ -154,11 +187,11 @@ void insertionSort(cityData citdat[], int* sizeOfArray)
 }
 
 
-void shellSort(cityData citdat[], int* sizeOfArray)
+void shellSort(cityData citdat[], int sizeOfArray)
 {
-    for (int gap = *sizeOfArray/2; gap > 0; gap/=2)
+    for (int gap = sizeOfArray/2; gap > 0; gap /= 2)
     {
-        for (int i = gap; i < *sizeOfArray; i++)
+        for (int i = gap; i < sizeOfArray; i++)
         {
             cityData temp = citdat[i];
             int j;
@@ -188,7 +221,7 @@ int readCityNames(int currentSize, int sizeOfArray, int choiceForSorting)
         insertionSort(citdat, &totalAmountOfCities);
         break;
     case 3:
-        shellSort(citdat, &totalAmountOfCities);
+        shellSort(citdat, totalAmountOfCities);
         break;
     }
 
@@ -201,18 +234,19 @@ int readCityNames(int currentSize, int sizeOfArray, int choiceForSorting)
 }
 
 
-int citySearch(string key, int* sizeOfArray, cityData citdat[], int searchingType)
+int citySearch(string key, int sizeOfArray, cityData citdat[], int searchingType)
 {
     if (searchingType == 1)
     {
-        selectionSort(citdat, sizeOfArray, true);
+        selectionSort(citdat, &sizeOfArray, true);
         // Binary Search
         int low = 0;
-        int high = *sizeOfArray;
-        int mid = (low + high)/2;
+        int high = sizeOfArray - 1;
 
-        while (true)
+        while (low <= high)
         {
+
+            int mid = (low + high)/2;
             if (key != citdat[mid].name)
             {
                 if (low == high)
@@ -222,12 +256,10 @@ int citySearch(string key, int* sizeOfArray, cityData citdat[], int searchingTyp
                     else if (key > citdat[mid].name)
                     {
                         high = mid - 1;
-                        mid = (mid - 1 + low)/2;
                     }
                     else
                     {
                         low = mid + 1;
-                        mid = (mid + 1 + high)/2;
                     }
             }
                 else
@@ -236,71 +268,64 @@ int citySearch(string key, int* sizeOfArray, cityData citdat[], int searchingTyp
                 }
         }
     }
-        else
-        {
-            selectionSort(citdat, sizeOfArray, false);
-            // Interpolation Search
-            int low = 0;
-            int high = *sizeOfArray - 1;
-
-            while (low <= high && citdat[low].name <= key && key <= citdat[high].name)
-            {
-                if (low == high)
-                {
-                    if (citdat[low].name == key)
-                    {
-                        return low;
-                    }
-                    return -1;
-                }
-
-                int position = low + ((high - low) / (citdat[high].name[0] - citdat[low].name[0])) * (key[0] - citdat[low].name[0]);
-                cout << endl << position << endl;
-
-                if (citdat[position].name == key)
-                {
-                    return position;
-                }
-                    else if (citdat[position].name > key)
-                    {
-                        high = position - 1;
-                    }
-                    else
-                    {
-                        low = position + 1;
-                    }
-            }
-            return -1;
-        }
+    return -1;
 }
 
 
 void changeCityData(int sizeOfArray)
 {
     int position;
-    string renamedCityName, renamedCityPopulation, renamedCityMedian;
-    readCityNames(0, sizeOfArray, 1);
+    string renamedCityName;
+    int renamedCityPopulation;
+    double renamedCityMedian;
+    bool validName = false, validPopulation = false, validMedian = false;
 
-    cout << endl << "\nChoose the city you'd like to change the data of El Presidente\n";
-    position = menu(sizeOfArray);
-    cin.clear();
-
-
-    do
+    while (!validName)
     {
-        cout << "\nEnter the new name El Presidente: ";
+        cout << "\nEnter the name of the new city El Presidente\n";
         getline(cin, renamedCityName);
-        cout << "\nEnter the city's population El Presidente: ";
-        getline(cin, renamedCityPopulation);
-        cout << "\nEnter the city's median age El Presidente: ";
-        getline(cin, renamedCityMedian);
-
-        if (renamedCityName.empty() || renamedCityPopulation.empty() || renamedCityMedian.empty())
+        if (renamedCityName.empty())
         {
-            cout << "One of the data cannot simply be blank El Presidente!";
+            cout << "Please enter a name El Presidente!";
         }
-    }while (renamedCityName.empty() && renamedCityPopulation.empty() && renamedCityMedian.empty());
-
+            else
+            {
+                validName = true;
+            }
+    }
+    cin.clear();
+    while (!validPopulation)
+    {
+        cout << "\nEnter the population of the new city El Presidente\n";
+        if (cin >> noskipws >> renamedCityPopulation && renamedCityPopulation > 0)
+        {
+            validPopulation = true;
+            cin.clear();
+            cin.ignore();
+        }
+            else
+            {
+                cout << "Please enter a number El Presidente!";
+                cin.clear();
+                cin.ignore();
+            }
+    }
+    while (!validMedian)
+    {
+        cout << "\nEnter the median age of the new city El Presidente\n";
+        if (cin >> noskipws >> renamedCityMedian && renamedCityMedian > 0)
+        {
+            validMedian = true;
+            cin.clear();
+            cin.ignore();
+        }
+            else
+            {
+                cout << "Pleas enter a number El Presidente!";
+                cin.clear();
+                cin.ignore();
+            }
+    }
     citdat[position-1].name = renamedCityName;
     citdat[position-1].pop.populationAmount = renamedCityPopulation;
     citdat[position-1].pop.populationMedianAge = renamedCityMedian;
@@ -335,8 +360,8 @@ void cityNamesProgram()
     int choice, sortingChoice, searchingIndex, searchingType;
     string searchedCity;
     citdat[0].name = "Learoston";
-    citdat[0].pop.populationAmount = "23000000";
-    citdat[0].pop.populationMedianAge = "34";
+    citdat[0].pop.populationAmount = 23000000;
+    citdat[0].pop.populationMedianAge = 34;
 
     cout << "\nWELCOME TO THE REPUBLIC OF LEAROSTON\n"
             "THIS HERE IS A LIST OF THE CITIES WE HAVE";
@@ -393,7 +418,7 @@ void cityNamesProgram()
                         "1. \"As soon as possible!\"" << endl <<
                         "2. \"Take your time.\"";
                 searchingType = menu(2);
-                searchingIndex = citySearch(searchedCity, &totalAmountOfCities, citdat, searchingType);
+                searchingIndex = citySearch(searchedCity, totalAmountOfCities, citdat, searchingType);
 
                 if (searchingIndex != -1)
                 {
