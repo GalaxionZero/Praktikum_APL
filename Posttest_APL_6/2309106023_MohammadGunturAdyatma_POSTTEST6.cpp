@@ -305,36 +305,6 @@ int cityMedianSearch(double key, int sizeOfArray, cityData citdat[])
 }
 
 
-//int cityMedianSearch(int key, int sizeOfArray, cityData citdat[])
-//{
-//    //Interpolation Search
-//    shellSort(citdat, sizeOfArray);
-//
-//    int low = 0;
-//    int high = sizeOfArray - 1;
-//
-//    while (low <= high && key >= citdat[low].pop.populationMedianAge && key <= citdat[high].pop.populationMedianAge)
-//    {
-//        int position = low + ((double)(key - citdat[low].pop.populationMedianAge) / (citdat[high].pop.populationMedianAge - citdat[low].pop.populationMedianAge)) * (high - low);
-//
-//        if (key == citdat[position].pop.populationMedianAge)
-//        {
-//            return position;
-//        }
-//            else if (key > citdat[position].pop.populationMedianAge)
-//            {
-//                high = position - 1;
-//            }
-//            else
-//            {
-//                low = position + 1;
-//            }
-//    }
-//
-//    return -1;
-//}
-
-
 void changeCityData(int sizeOfArray)
 {
     int position;
